@@ -1,10 +1,9 @@
 package com.lechowicz.footballmatchesresults.model;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.sql.Date;
 import java.util.Map;
+import java.util.Set;
 
 public class Match {
     private int id;

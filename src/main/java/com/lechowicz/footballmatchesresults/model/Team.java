@@ -1,5 +1,9 @@
 package com.lechowicz.footballmatchesresults.model;
 
+import javax.persistence.CascadeType;
+import javax.persistence.OneToMany;
+import java.util.Set;
+
 public class Team {
     private int id;
     private String name;

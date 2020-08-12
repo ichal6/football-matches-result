@@ -2,6 +2,7 @@ package com.lechowicz.footballmatchesresults.controller;
 
 import com.lechowicz.footballmatchesresults.model.Match;
 import com.lechowicz.footballmatchesresults.model.Team;
+import com.lechowicz.footballmatchesresults.model.TeamMatch;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -73,7 +74,9 @@ public class footballController {
             match.setTeamAway(awayTeam);
             match.setTeamHome(homeTeam);
             matchID = (Integer) session.save(match);
-            fillCommonTable(session, matchID, homeTeam, awayTeam);
+            TeamMatch teamMatch = new TeamMatch(matchID, homeTeam.getId(), awayTeam.getId());
+            Integer teamMatchId = (Integer) session.save(teamMatch);
+            //fillCommonTable(session, matchID, homeTeam, awayTeam);
             tx.commit();
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
