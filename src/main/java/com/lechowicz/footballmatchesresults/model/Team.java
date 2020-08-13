@@ -1,12 +1,10 @@
 package com.lechowicz.footballmatchesresults.model;
 
-import org.hibernate.annotations.GeneratorType;
-
 import javax.persistence.*;
-import java.util.Set;
+
 
 @Entity
-@Table(name = "TEAM")
+@Table(name = "team")
 public class Team {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

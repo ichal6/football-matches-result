@@ -5,17 +5,11 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
-@Entity
-@Table(name = "team_matches")
 public class TeamMatchId implements Serializable {
-    @Id
     private static final long serialVersionUID = 1L;
 
-    @Column(name = "matches_id")
     private Long matchId;
-    @Column(name = "home_team_id")
     private Long homeTeamId;
-    @Column(name = "away_team_id")
     private Long awayTeamId;
 
     public TeamMatchId(){  }

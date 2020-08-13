@@ -3,14 +3,14 @@ package com.lechowicz.footballmatchesresults.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "team_matches")
+@Table(name = "team_match")
 public class TeamMatch {
     @EmbeddedId
     private TeamMatchId id = new TeamMatchId();
 
     @ManyToOne
     @MapsId("matchId")
-    @JoinColumn(name = "matches_id")
+    @JoinColumn(name = "match_id")
     private Match match;
 
     @ManyToOne

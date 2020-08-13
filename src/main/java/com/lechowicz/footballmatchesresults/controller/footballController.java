@@ -77,7 +77,6 @@ public class footballController {
             match.setId(matchID);
             TeamMatch teamMatch = new TeamMatch(match, homeTeam, awayTeam);
             session.save(teamMatch);
-            //fillCommonTable(session, matchID, homeTeam, awayTeam);
             tx.commit();
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
@@ -86,13 +85,5 @@ public class footballController {
             session.close();
         }
         return matchID;
-    }
-
-    private void fillCommonTable(Session session, int matchId, Team homeTeam, Team awayTeam){
-        session.createNativeQuery("INSERT INTO team_matches (matches_id, home_team_id, away_team_id) VALUES (?,?,?)")
-                .setParameter(1, matchId)
-                .setParameter(2, homeTeam.getId())
-                .setParameter(3, awayTeam.getId())
-                .executeUpdate();
     }
 }
