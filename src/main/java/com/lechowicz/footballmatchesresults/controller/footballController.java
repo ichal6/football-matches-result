@@ -63,17 +63,17 @@ public class footballController {
         return team;
     }
 
-    private long addMatch(Date date, Team homeTeam, Team awayTeam, int goalsHome, int goalsAway, Map<Long, Team> teams){
+    private Match addMatch(Date date, Team homeTeam, Team awayTeam, int goalsHome, int goalsAway, Map<Long, Team> teams){
         Session session = factory.openSession();
         Transaction tx = null;
-        Long matchID = null;
+        Match match = null;
 
         try {
             tx = session.beginTransaction();
-            Match match = new Match(date, goalsHome, goalsAway);
+            match = new Match(date, goalsHome, goalsAway);
             match.setTeamAway(awayTeam);
             match.setTeamHome(homeTeam);
-            matchID = (Long) session.save(match);
+            long matchID = (Long) session.save(match);
             match.setId(matchID);
             TeamMatch teamMatch = new TeamMatch(match, homeTeam, awayTeam);
             session.save(teamMatch);
@@ -84,6 +84,6 @@ public class footballController {
         } finally {
             session.close();
         }
-        return matchID;
+        return match;
     }
 }
