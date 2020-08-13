@@ -11,13 +11,14 @@ import org.hibernate.cfg.Configuration;
 
 import java.sql.Date;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 public class footballController {
     private static SessionFactory factory;
 
     public static void main(String[] args) {
-        footballController controller = new footballController();
         try {
             factory = new Configuration().
                     configure().
@@ -29,7 +30,16 @@ public class footballController {
             System.err.println("Failed to create sessionFactory object." + ex);
             throw new ExceptionInInitializerError(ex);
         }
+        footballController controller = new footballController();
+        controller.getMatches();
+//        controller.insertToDB();
+
+    }
+
+    private void insertToDB(){
+        footballController controller = new footballController();
         Map<Long, Team> teams = new HashMap<>();
+
         Team newTeam = controller.addTeam("FC-zlewce", "Poland", "Zalesie");
         teams.put(newTeam.getId(), newTeam);
         newTeam = controller.addTeam("Stare-gacie", "Poland", "Buda Wielka");
@@ -39,8 +49,36 @@ public class footballController {
         newTeam = controller.addTeam("Kowboy", "USA", "Texas");
         teams.put(newTeam.getId(), newTeam);
 
-        controller.addMatch(new Date(432432L), teams.get(1L),  teams.get(2L), 2,3, teams);
+        controller.addMatch(new Date(855765L), teams.get(1L),  teams.get(2L), 2,3);
+        controller.addMatch(new Date(54365435L), teams.get(3L), teams.get(4L), 0, 4);
+        controller.addMatch(new Date(35666), teams.get(4L), teams.get(3L), 5, 2);
+    }
 
+    public void getMatches(){
+        Session session = factory.openSession();
+        Transaction tx = null;
+        try{
+            tx = session.beginTransaction();
+            List teamMatches = session.createQuery("FROM TeamMatch").list();
+
+            for (Iterator iterator2 = teamMatches.iterator() ; iterator2.hasNext();){
+                TeamMatch teamMatch = (TeamMatch) iterator2.next();
+                Match match = teamMatch.getMatch();
+                System.out.println("Date: " + match.getDate());
+                System.out.println("Goals for home: " + match.getGoalsHome());
+                System.out.println("Goals for away:" + match.getGoalsAway());
+                Team teamAway = teamMatch.getAwayTeam();
+                Team teamHome = teamMatch.getHomeTeam();
+                System.out.println("Team home: " + teamHome.getName());
+                System.out.println("Team away: " + teamAway.getName());
+            }
+            tx.commit();
+        }catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        }finally {
+            session.close();
+        }
     }
 
     private Team addTeam(String name, String country, String city){
@@ -63,7 +101,7 @@ public class footballController {
         return team;
     }
 
-    private Match addMatch(Date date, Team homeTeam, Team awayTeam, int goalsHome, int goalsAway, Map<Long, Team> teams){
+    private Match addMatch(Date date, Team homeTeam, Team awayTeam, int goalsHome, int goalsAway){
         Session session = factory.openSession();
         Transaction tx = null;
         Match match = null;
