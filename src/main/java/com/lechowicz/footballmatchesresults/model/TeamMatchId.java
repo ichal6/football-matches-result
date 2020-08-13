@@ -1,47 +1,56 @@
 package com.lechowicz.footballmatchesresults.model;
 
-import javax.persistence.Embeddable;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
+@Entity
+@Table(name = "team_matches")
 public class TeamMatchId implements Serializable {
+    @Id
     private static final long serialVersionUID = 1L;
 
-    private Integer matchId;
-    private Integer homeTeamId;
-    private Integer awayTeamId;
+    @Column(name = "matches_id")
+    private Long matchId;
+    @Column(name = "home_team_id")
+    private Long homeTeamId;
+    @Column(name = "away_team_id")
+    private Long awayTeamId;
 
     public TeamMatchId(){  }
 
-    public TeamMatchId(Integer matchId, Integer homeTeamId, Integer awayTeamId) {
+    public TeamMatchId(Long matchId, Long homeTeamId, Long awayTeamId) {
         super();
         this.matchId = matchId;
         this.homeTeamId = homeTeamId;
         this.awayTeamId = awayTeamId;
     }
 
-    public Integer getMatchId() {
+
+    public Long getMatchId() {
         return matchId;
     }
 
-    public void setMatchId(Integer matchId) {
+    public void setMatchId(Long matchId) {
         this.matchId = matchId;
     }
 
-    public Integer getHomeTeamId() {
+
+    public Long getHomeTeamId() {
         return homeTeamId;
     }
 
-    public void setHomeTeamId(Integer homeTeamId) {
+    public void setHomeTeamId(Long homeTeamId) {
         this.homeTeamId = homeTeamId;
     }
 
-    public Integer getAwayTeamId() {
+
+    public Long getAwayTeamId() {
         return awayTeamId;
     }
 
-    public void setAwayTeamId(Integer awayTeamId) {
+    public void setAwayTeamId(Long awayTeamId) {
         this.awayTeamId = awayTeamId;
     }
 

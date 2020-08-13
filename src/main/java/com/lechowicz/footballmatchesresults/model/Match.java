@@ -2,15 +2,21 @@ package com.lechowicz.footballmatchesresults.model;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.Map;
-import java.util.Set;
 
+@Entity
+@Table(name = "matches")
 public class Match {
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
     private Date date;
+    @Column(name = "goals_home")
     private int goalsHome;
+    @Column(name = "goals_away")
     private int goalsAway;
+    @Transient
     private Team teamHome;
+    @Transient
     private Team teamAway;
 
     public Match(){ }
@@ -21,11 +27,11 @@ public class Match {
         this.goalsAway = goalsAway;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

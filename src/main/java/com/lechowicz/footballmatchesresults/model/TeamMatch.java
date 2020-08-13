@@ -10,22 +10,28 @@ public class TeamMatch {
 
     @ManyToOne
     @MapsId("matchId")
-    private int matchId;
+    @JoinColumn(name = "matches_id")
+    private Match match;
 
     @ManyToOne
     @MapsId("homeTeamId")
-    private Integer homeTeamId;
+    @JoinColumn(name = "home_team_id")
+    private Team homeTeam;
 
     @ManyToOne
     @MapsId("awayTeamId")
-    private Integer awayTeamId;
+    @JoinColumn(name = "away_team_id")
+    private Team awayTeam;
 
     public TeamMatch() { }
 
-    public TeamMatch(int matchId, int homeTeamId, int awayTeamId) {
-        this.matchId = matchId;
-        this.homeTeamId = homeTeamId;
-        this.awayTeamId = awayTeamId;
+    public TeamMatch( Match match, Team homeTeam, Team awayTeam) {
+        this.match = match;
+        this.homeTeam = homeTeam;
+        this.awayTeam = awayTeam;
+        this.id.setMatchId(match.getId());
+        this.id.setHomeTeamId(homeTeam.getId());
+        this.id.setAwayTeamId(awayTeam.getId());
     }
 
     public TeamMatchId getId() {
@@ -36,27 +42,27 @@ public class TeamMatch {
         this.id = id;
     }
 
-    public int getMatchId() {
-        return matchId;
+    public Match getMatch() {
+        return match;
     }
 
-    public void setMatch(int matchId) {
-        this.matchId = matchId;
+    public void setMatch(Match match) {
+        this.match = match;
     }
 
-    public int getHomeTeamId() {
-        return this.homeTeamId;
+    public Team getHomeTeam() {
+        return homeTeam;
     }
 
-    public void setHomeTeam(int homeTeamId) {
-        this.homeTeamId = homeTeamId;
+    public void setHomeTeam(Team homeTeam) {
+        this.homeTeam = homeTeam;
     }
 
-    public int getAwayTeamId() {
-        return this.awayTeamId;
+    public Team getAwayTeam() {
+        return awayTeam;
     }
 
-    public void setAwayTeamId(int awayTeamId) {
-        this.awayTeamId = awayTeamId;
+    public void setAwayTeam(Team awayTeam) {
+        this.awayTeam = awayTeam;
     }
 }

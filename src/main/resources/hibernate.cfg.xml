@@ -26,8 +26,8 @@
             1234
         </property>
 
-        <!-- List of XML mapping files -->
-        <mapping resource = "football.hbm.xml"/>
+<!--        &lt;!&ndash; List of XML mapping files &ndash;&gt;-->
+<!--        <mapping resource = "football.hbm.xml"/>-->
 
     </session-factory>
 </hibernate-configuration>

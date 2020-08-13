@@ -5,31 +5,31 @@ import com.lechowicz.footballmatchesresults.model.Team;
 import com.lechowicz.footballmatchesresults.model.TeamMatch;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.query.Query;
-import org.springframework.stereotype.Controller;
 
 import java.sql.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
-@Controller
 public class footballController {
     private static SessionFactory factory;
 
     public static void main(String[] args) {
         footballController controller = new footballController();
         try {
-            factory = new Configuration().configure().buildSessionFactory();
+            factory = new Configuration().
+                    configure().
+                    addAnnotatedClass(Team.class).
+                    addAnnotatedClass(Match.class).
+                    addAnnotatedClass(TeamMatch.class).
+                    buildSessionFactory();
         } catch (Throwable ex) {
             System.err.println("Failed to create sessionFactory object." + ex);
             throw new ExceptionInInitializerError(ex);
         }
-        Map<Integer, Team> teams = new HashMap<>();
+        Map<Long, Team> teams = new HashMap<>();
         Team newTeam = controller.addTeam("FC-zlewce", "Poland", "Zalesie");
         teams.put(newTeam.getId(), newTeam);
         newTeam = controller.addTeam("Stare-gacie", "Poland", "Buda Wielka");
@@ -39,7 +39,7 @@ public class footballController {
         newTeam = controller.addTeam("Kowboy", "USA", "Texas");
         teams.put(newTeam.getId(), newTeam);
 
-        controller.addMatch(new Date(432432L), teams.get(1),  teams.get(2), 2,3, teams);
+        controller.addMatch(new Date(432432L), teams.get(1L),  teams.get(2L), 2,3, teams);
 
     }
 
@@ -51,7 +51,7 @@ public class footballController {
         try {
             tx = session.beginTransaction();
             team = new Team(name, country, city);
-            int teamID = (Integer) session.save(team);
+            long teamID = (Long) session.save(team);
             team.setId(teamID);
             tx.commit();
         } catch (HibernateException e) {
@@ -63,19 +63,20 @@ public class footballController {
         return team;
     }
 
-    private int addMatch(Date date, Team homeTeam, Team awayTeam, int goalsHome, int goalsAway, Map<Integer, Team> teams){
+    private long addMatch(Date date, Team homeTeam, Team awayTeam, int goalsHome, int goalsAway, Map<Long, Team> teams){
         Session session = factory.openSession();
         Transaction tx = null;
-        Integer matchID = null;
+        Long matchID = null;
 
         try {
             tx = session.beginTransaction();
             Match match = new Match(date, goalsHome, goalsAway);
             match.setTeamAway(awayTeam);
             match.setTeamHome(homeTeam);
-            matchID = (Integer) session.save(match);
-            TeamMatch teamMatch = new TeamMatch(matchID, homeTeam.getId(), awayTeam.getId());
-            Integer teamMatchId = (Integer) session.save(teamMatch);
+            matchID = (Long) session.save(match);
+            match.setId(matchID);
+            TeamMatch teamMatch = new TeamMatch(match, homeTeam, awayTeam);
+            session.save(teamMatch);
             //fillCommonTable(session, matchID, homeTeam, awayTeam);
             tx.commit();
         } catch (HibernateException e) {

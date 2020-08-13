@@ -1,11 +1,16 @@
 package com.lechowicz.footballmatchesresults.model;
 
-import javax.persistence.CascadeType;
-import javax.persistence.OneToMany;
+import org.hibernate.annotations.GeneratorType;
+
+import javax.persistence.*;
 import java.util.Set;
 
+@Entity
+@Table(name = "TEAM")
 public class Team {
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
     private String name;
     private String country;
     private String city;
@@ -18,11 +23,11 @@ public class Team {
         this.city = city;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
