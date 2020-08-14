@@ -109,8 +109,6 @@ public class footballController {
         try {
             tx = session.beginTransaction();
             match = new Match(date, goalsHome, goalsAway);
-            match.setTeamAway(awayTeam);
-            match.setTeamHome(homeTeam);
             long matchID = (Long) session.save(match);
             match.setId(matchID);
             TeamMatch teamMatch = new TeamMatch(match, homeTeam, awayTeam);

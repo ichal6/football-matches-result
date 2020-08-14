@@ -14,10 +14,6 @@ public class Match {
     private int goalsHome;
     @Column(name = "goals_away")
     private int goalsAway;
-    @Transient
-    private Team teamHome;
-    @Transient
-    private Team teamAway;
 
     public Match(){ }
 
@@ -57,21 +53,5 @@ public class Match {
 
     public void setGoalsAway(int goalsAway) {
         this.goalsAway = goalsAway;
-    }
-
-    public Team getTeamHome() {
-        return teamHome;
-    }
-
-    public void setTeamHome(Team teamHome) {
-        this.teamHome = teamHome;
-    }
-
-    public Team getTeamAway() {
-        return teamAway;
-    }
-
-    public void setTeamAway(Team teamAway) {
-        this.teamAway = teamAway;
     }
 }
