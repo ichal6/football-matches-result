@@ -31,9 +31,35 @@ public class FootballController {
             throw new ExceptionInInitializerError(ex);
         }
 
-        FootballController footballController = new FootballController();
-        footballController.getMatches();
+        displayMatchesAndTeams();
+    }
 
+    private static void displayMatchesAndTeams(){
+        FootballController footballController = new FootballController();
+        List<TeamMatch> teamMatches = footballController.getMatches();
+        List<Team> teams = footballController.getTeams();
+
+        for (Iterator iterator2 = teamMatches.iterator() ; iterator2.hasNext();){
+            TeamMatch teamMatch = (TeamMatch) iterator2.next();
+            Match match = teamMatch.getMatch();
+            System.out.println("Match number " + match.getId());
+            System.out.println("Date: " + match.getDate());
+            System.out.println("Goals for home: " + match.getGoalsHome());
+            System.out.println("Goals for away:" + match.getGoalsAway());
+            Team teamAway = teamMatch.getAwayTeam();
+            Team teamHome = teamMatch.getHomeTeam();
+            System.out.println("Team home: " + teamHome.getName());
+            System.out.println("Team away: " + teamAway.getName());
+            System.out.println();
+        }
+
+        for(Team team: teams){
+            System.out.println("Team number " + team.getId());
+            System.out.println("name: " + team.getName());
+            System.out.println("country: " + team.getCountry());
+            System.out.println("city: " + team.getCity());
+            System.out.println();
+        }
     }
 
     public static void insertToDB(){
@@ -54,31 +80,32 @@ public class FootballController {
         controller.addMatch(new Date(35666), teams.get(4L), teams.get(3L), 5, 2);
     }
 
-    public void getMatches(){
+    public List<TeamMatch> getMatches(){
         Session session = factory.openSession();
-        Transaction tx = null;
-        try{
-            tx = session.beginTransaction();
-            List teamMatches = session.createQuery("FROM TeamMatch").list();
+        List<TeamMatch> teamMatches = null;
 
-            for (Iterator iterator2 = teamMatches.iterator() ; iterator2.hasNext();){
-                TeamMatch teamMatch = (TeamMatch) iterator2.next();
-                Match match = teamMatch.getMatch();
-                System.out.println("Date: " + match.getDate());
-                System.out.println("Goals for home: " + match.getGoalsHome());
-                System.out.println("Goals for away:" + match.getGoalsAway());
-                Team teamAway = teamMatch.getAwayTeam();
-                Team teamHome = teamMatch.getHomeTeam();
-                System.out.println("Team home: " + teamHome.getName());
-                System.out.println("Team away: " + teamAway.getName());
-            }
-            tx.commit();
+        try{
+            teamMatches = session.createQuery("FROM TeamMatch").list();
         }catch (HibernateException e) {
-            if (tx!=null) tx.rollback();
             e.printStackTrace();
         }finally {
             session.close();
         }
+        return teamMatches;
+    }
+
+    public List<Team> getTeams(){
+        Session session = factory.openSession();
+        List<Team> teams = null;
+        try{
+            teams = session.createQuery("FROM Team").list();
+        }catch (HibernateException e) {
+            e.printStackTrace();
+        }finally {
+            session.close();
+        }
+
+        return teams;
     }
 
     private Team addTeam(String name, String country, String city){
