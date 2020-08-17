@@ -15,7 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-public class footballController {
+public class FootballController {
     private static SessionFactory factory;
 
     public static void main(String[] args) {
@@ -30,14 +30,14 @@ public class footballController {
             System.err.println("Failed to create sessionFactory object." + ex);
             throw new ExceptionInInitializerError(ex);
         }
-        footballController controller = new footballController();
-        controller.getMatches();
-//        controller.insertToDB();
+
+        FootballController footballController = new FootballController();
+        footballController.getMatches();
 
     }
 
-    private void insertToDB(){
-        footballController controller = new footballController();
+    public static void insertToDB(){
+        FootballController controller = new FootballController();
         Map<Long, Team> teams = new HashMap<>();
 
         Team newTeam = controller.addTeam("FC-zlewce", "Poland", "Zalesie");
