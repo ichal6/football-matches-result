@@ -65,4 +65,14 @@ public class TeamMatch {
     public void setAwayTeam(Team awayTeam) {
         this.awayTeam = awayTeam;
     }
+
+    @Override
+    public String toString() {
+        return "Match number " + match.getId() + "\n" +
+        "Date: " + match.getDate() + "\n" +
+        "Goals for home: " + match.getGoalsHome() + "\n" +
+        "Goals for away:" + match.getGoalsAway() + "\n" +
+        "Team home: " + homeTeam.getName() + "\n" +
+        "Team away: " + awayTeam.getName() + "\n";
+    }
 }

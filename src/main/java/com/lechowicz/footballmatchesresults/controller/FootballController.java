@@ -10,10 +10,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import java.sql.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class FootballController {
@@ -37,6 +34,7 @@ public class FootballController {
 
         displayMatchesAndTeams();
         displayTeamsWithFC();
+        displayMatchWithTheMostGoals();
     }
 
     private List<Team> getTeamsWithFC(){
@@ -47,8 +45,25 @@ public class FootballController {
 
     }
 
+    private TeamMatch getMatchWithTheMostGoals(){
+        Optional<TeamMatch> teamMatchOptional = getMatches()
+                .stream()
+                .reduce((match1, match2)
+                        -> (match1.getMatch().getAllGoals()) > (match2.getMatch().getAllGoals())
+                        ? match1 : match2);
+        return teamMatchOptional.orElse(null);
+    }
+
     private void displayTeams(List<Team> teams){
         teams.forEach(System.out::println);
+    }
+
+    private void displayTeamMatch(TeamMatch teamMatch){
+        System.out.println(teamMatch);
+    }
+
+    private static void displayMatchWithTheMostGoals(){
+        footballController.displayTeamMatch(footballController.getMatchWithTheMostGoals());
     }
 
     private static void displayTeamsWithFC(){

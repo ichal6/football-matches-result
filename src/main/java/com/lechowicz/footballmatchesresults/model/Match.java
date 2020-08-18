@@ -15,12 +15,16 @@ public class Match {
     @Column(name = "goals_away")
     private int goalsAway;
 
+    @Transient
+    private int allGoals;
+
     public Match(){ }
 
     public Match(Date date, int goalsHome, int goalsAway) {
         this.date = date;
         this.goalsHome = goalsHome;
         this.goalsAway = goalsAway;
+        this.allGoals = goalsAway + goalsHome;
     }
 
     public long getId() {
@@ -45,6 +49,7 @@ public class Match {
 
     public void setGoalsHome(int goalsHome) {
         this.goalsHome = goalsHome;
+        this.allGoals  = goalsHome + this.goalsAway;
     }
 
     public int getGoalsAway() {
@@ -53,5 +58,10 @@ public class Match {
 
     public void setGoalsAway(int goalsAway) {
         this.goalsAway = goalsAway;
+        this.allGoals = goalsAway + this.goalsHome;
+    }
+
+    public int getAllGoals() {
+        return allGoals;
     }
 }
