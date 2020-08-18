@@ -14,9 +14,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class FootballController {
     private static SessionFactory factory;
+    private static FootballController footballController;
 
     public static void main(String[] args) {
         try {
@@ -31,11 +33,29 @@ public class FootballController {
             throw new ExceptionInInitializerError(ex);
         }
 
+        footballController = new FootballController();
+
         displayMatchesAndTeams();
+        displayTeamsWithFC();
+    }
+
+    private List<Team> getTeamsWithFC(){
+         return getTeams()
+                .stream()
+                .filter(team -> team.getName().contains("FC"))
+                .collect(Collectors.toList());
+
+    }
+
+    private void displayTeams(List<Team> teams){
+        teams.forEach(System.out::println);
+    }
+
+    private static void displayTeamsWithFC(){
+        footballController.displayTeams(footballController.getTeamsWithFC());
     }
 
     private static void displayMatchesAndTeams(){
-        FootballController footballController = new FootballController();
         List<TeamMatch> teamMatches = footballController.getMatches();
         List<Team> teams = footballController.getTeams();
 

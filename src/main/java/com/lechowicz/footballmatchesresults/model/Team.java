@@ -53,4 +53,11 @@ public class Team {
         this.city = city;
     }
 
+    @Override
+    public String toString() {
+        return "Team number " + getId() + "\n" +
+        "name: " + getName() + "\n" +
+        "country: " + getCountry() + "\n" +
+        "city: " + getCity() + "\n";
+    }
 }
