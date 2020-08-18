@@ -4,6 +4,7 @@ import com.lechowicz.footballmatchesresults.controller.FootballController;
 import com.lechowicz.footballmatchesresults.model.Match;
 import com.lechowicz.footballmatchesresults.model.Team;
 import com.lechowicz.footballmatchesresults.model.TeamMatch;
+import com.lechowicz.footballmatchesresults.service.FootballService;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
@@ -23,7 +24,6 @@ public class FillDB {
             throw new ExceptionInInitializerError(ex);
         }
 
-        FootballController.insertToDB();
-
+        FootballService.insertToDB();
     }
 }
